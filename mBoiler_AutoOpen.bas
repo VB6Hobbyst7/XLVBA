@@ -5,7 +5,7 @@ Option Private Module
 Sub auto_open()
     Dim hModule As Long
     initializeSpecialShortCutKeys
-    hModule = DLLHandle("DBUtils", "c:\dev\bin\QUtils.dll")
+    hModule = DLLHandle("QUtils", "c:\dev\bin\QUtils.dll")
     If hModule = 0 Then MsgBox "Couldn't load QUtils!"
 End Sub
 

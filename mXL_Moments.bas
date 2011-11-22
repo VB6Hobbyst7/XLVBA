@@ -8,7 +8,7 @@ Attribute VB_Name = "mXL_Moments"
  
 Option Explicit
 
-Private Declare Function uTRAMoments1D Lib "QUtils" (ByRef anArray2D() As Double) As Double()
+Private Declare Function uDBMoments1D Lib "QUtils" (ByRef anArray2D() As Double) As Double()
 
 Function XLMoments(data As Range) As Double()
     Dim data2D() As Double, i As Long, j As Long
@@ -18,6 +18,6 @@ Function XLMoments(data As Range) As Double()
             data2D(i, j) = data(i, j).Value
         Next
     Next
-    XLMoments = uTRAMoments1D(data2D)
+    XLMoments = uDBMoments1D(data2D)
 End Function
 

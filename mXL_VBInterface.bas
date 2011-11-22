@@ -285,36 +285,6 @@ exceptionHandler:
 End Function
 
 
-
-'        DBGetArrayDetails arrayOrVariant, nDimensions
-'        Select Case nDimensions
-'            Case 1
-'                answer2D = TRAC1DArrayAsHorizontal2DArray(arrayOrVariant)
-'            Case 2
-'                ' detect for blank arrays that have been TRACAnswer2D'd
-'                likelyCAnswer2D = False
-'                DBGetArrayBounds arrayOrVariant, 1, i1, i2
-'                DBGetArrayBounds arrayOrVariant, 1, j1, j2
-'                If i1 = 1 And i2 = 2 And j1 = 1 And j2 = 2 Then
-'                    likelyCAnswer2D = True
-'                    For i = i1 To i2
-'                        For j = j1 To j2
-'                            If Not IsError(arrayOrVariant(i, j)) Then likelyCAnswer2D = False: Exit For
-'                            If arrayOrVariant(i, j) <> CVErr(xlErrNA) Then likelyCAnswer2D = False: Exit For
-'                        Next
-'                    Next
-'                End If
-'                If likelyCAnswer2D Then
-'                    answer2D = Empty
-'                Else
-'                    answer2D = arrayOrVariant
-'                End If
-'            Case Else
-'                DBErrors_raiseUnhandledCase ModuleSummary(), METHOD_NAME, "Too many dimensions"
-'        End Select
-'    End If
-
-
 '*************************************************************************************************************************************************************************************************************************************************
 ' Utilities to help make the interface to functions being called by XL and VBA more uniform
 '*************************************************************************************************************************************************************************************************************************************************
