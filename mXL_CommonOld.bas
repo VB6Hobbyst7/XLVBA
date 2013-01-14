@@ -28,7 +28,7 @@ Private myPasteIDSeed As Long
 Private myRangesByPasteID As New Dictionary
 Private myValuesByPasteID As New Dictionary
 
-Public myDoubleClickHandlerHolder As New Dictionary
+Private myDoubleClickHandlerHolder As New Dictionary
 
 ' = get.workspace(10000)             - ?
 ' = get.workspace(44)
@@ -43,9 +43,9 @@ Public myDoubleClickHandlerHolder As New Dictionary
 
 Function XLAddressOfCell(aCell As Range, Optional includeBookName As Boolean = False) As String
     If includeBookName Then
-        XLAddressOfCell = "'[" & aCell.Worksheet.Parent.name() & "]" & aCell.Worksheet.name() & "'!" & aCell.address
+        XLAddressOfCell = "'[" & aCell.Worksheet.Parent.name() & "]" & aCell.Worksheet.name() & "'!" & aCell.Address
     Else
-        XLAddressOfCell = "'" & aCell.Worksheet.name() & "'!" & aCell.address
+        XLAddressOfCell = "'" & aCell.Worksheet.name() & "'!" & aCell.Address
     End If
 End Function
 
@@ -159,9 +159,8 @@ Sub XLQueuePaste(cellToPaste As Range, aValue As Variant, Optional tickers As Ra
 End Sub
 
 Sub XLTimerCallbackPaste(ByVal hwnd As Long, ByVal uMsg As Long, ByVal idEvent As Long, ByVal lngSysTime As Long)
-    Const DELAY As Date = 1# / 24# / 60# / 60# / 10#
     On Error Resume Next
-    Application.OnTime Now() + DELAY, "XLApplicationCallbackPaste"
+    Application.OnTime Now() + TimeValue("00:00:01"), "XLApplicationCallbackPaste"
     If Err.Number = 0 Then apiKillTimer 0, idEvent
 End Sub
 
@@ -230,17 +229,12 @@ End Sub
 '*************************************************************************************************************************************************************************************************************************************************
 
 Function XLRegisterDoubleClick(monitoredRange As Range, action As String, ParamArray Arguments() As Variant) As String
-    Dim handler As cXL_DCHandler, addressID As String, oldHandler As cXL_DCHandler
+    Dim handler As cXL_DCHandler
     Application.Volatile
     Set handler = New cXL_DCHandler
     handler.initialize monitoredRange, action, CVar(Arguments)
-    addressID = XLAddressOfCell(monitoredRange)
-    If myDoubleClickHandlerHolder.Exists(addressID) Then
-        Set oldHandler = myDoubleClickHandlerHolder(addressID)
-        oldHandler.disable
-    End If
     Set myDoubleClickHandlerHolder(XLAddressOfCell(monitoredRange)) = handler
-    XLRegisterDoubleClick = "[DC]"  'Registered """ & action & """ to " & XLAddressOfCell(monitoredRange)
+    XLRegisterDoubleClick = "Registered """ & action & """ to " & XLAddressOfCell(monitoredRange)
 End Function
 
 
@@ -256,9 +250,6 @@ Sub XLDoubleClickHandler(target As Range, monitoredRange As Range, action As Str
             Cancel = True
         Case "SAVEASFILENAME2CELL"
             XLSaveAsFileName2Cell target, action, Arguments
-            Cancel = True
-        Case "ADD"
-            target.value = target.value + Arguments(0)
             Cancel = True
         Case "TODAY"
             target.value = Date
