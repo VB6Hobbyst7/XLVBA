@@ -103,6 +103,12 @@ Function XLDropBlankRows(aRange As Variant, Optional columnToSelect As Long = 1,
     End If
 End Function
 
+Function XLSubArray(arrayFromXL As Variant, Optional ByVal r1 As Variant, Optional ByVal r2 As Variant, Optional ByVal c1 As Variant, Optional ByVal c2 As Variant) As Variant
+    Dim arrayFromXL2D() As Variant
+    DBCWhateverAs2DArray arrayFromXL, arrayFromXL2D
+    XLSubArray = DBSubArray(arrayFromXL2D, r1, r2, c1, c2)
+End Function
+
 
 '*************************************************************************************************************************************************************************************************************************************************
 ' interpolation
